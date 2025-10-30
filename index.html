@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Python Calculator</title>
+<style>
+body { font-family: Arial; display: flex; justify-content: center; padding-top: 80px; }
+.container { width: 320px; }
+input { width: 100%; padding: 12px; font-size: 18px; }
+button { width: 100%; padding: 12px; font-size: 18px; margin-top: 10px; cursor: pointer; }
+p { font-size: 20px; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <input id="exp" placeholder="Enter expression. Example: 2+3*5">
+    <button onclick="calc()">Calculate</button>
+    <p id="result"></p>
+</div>
+
+<script>
+function calc() {
+  const exp = document.getElementById("exp").value;
+  fetch("/calculate", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({expression: exp})
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("result").innerText = data.result || data.error;
+  });
+}
+</script>
+
+</body>
+</html>
